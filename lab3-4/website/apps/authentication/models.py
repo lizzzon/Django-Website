@@ -1,8 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
-class Task(models.Model):
-    task = models.TextField('/')
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
+    quantity_orders = models.IntegerField(default=0, null=False)
 
-    def __str__(self):
-        return self.title

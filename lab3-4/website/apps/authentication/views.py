@@ -9,7 +9,7 @@ class RegisterFormView(FormView):
     form_class = UserCreationForm
 
     success_url = "/login/"
-    template_name = "register.html"
+    template_name = "main/register.html"
 
     def form_valid(self, form):
         form.save()
@@ -20,7 +20,7 @@ class RegisterFormView(FormView):
 class LoginFormView(FormView):
     form_class = AuthenticationForm
 
-    template_name = "login.html"
+    template_name = "main/login.html"
     success_url = "/"
 
     def form_valid(self, form):
