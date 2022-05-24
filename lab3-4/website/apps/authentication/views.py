@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 class RegisterFormView(FormView):
     form_class = UserCreationForm
 
-    success_url = "/login/"
+    success_url = "/auth/login/"
     template_name = "registration/register.html"
 
     def form_valid(self, form):
@@ -20,7 +20,7 @@ class RegisterFormView(FormView):
 class LoginFormView(FormView):
     form_class = AuthenticationForm
 
-    # template_name = "registration/login.html"
+    template_name = "registration/login.html"
     success_url = "/"
 
     def form_valid(self, form):
