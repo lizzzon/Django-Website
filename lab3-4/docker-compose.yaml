@@ -6,9 +6,8 @@ services:
     container_name: "website_app"
     build: website
     command: python manage.py runserver 0.0.0.0:8000
-#    depends_on:
-#      - postgres
-#      - celery
+    depends_on:
+      - postgres
     ports:
       - "8000:8000"
     expose:
@@ -42,34 +41,8 @@ services:
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
 
-#  redis:
-#    container_name: "website_redis"
-#    image: redis:5.0.4-alpine
-#    volumes:
-#      - redis_data:/data
-#    env_file:
-#       - ./variables/dev.env
-#    ports:
-#      - "6379:6379"
-#    expose:
-#      - 6379
-#
-#  celery:
-#    image: "website_celery_image"
-#    container_name: "website_celery"
-#    build: website
-#    command: celery -A website worker -l info
-#    volumes:
-#      - celery_volume/:/usr/src/app/
-#      - media_volume:/app/mediafiles
-#    env_file:
-#       - ./variables/dev.env
-#    depends_on:
-#      - redis
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
-#  celery_volume:
-#  redis_data:

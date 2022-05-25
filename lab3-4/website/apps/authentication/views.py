@@ -1,33 +1,70 @@
-from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
 from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
+from apps.authentication.forms import RegisterForm, LoginForm
 
-class RegisterFormView(FormView):
+
+class MyView(LoginRequiredMixin, View):
+    login_url = '/auth/login'
+    redirect_field_name = 'redirect_to'
+
+
+class RegisterFormView(View):
     form_class = UserCreationForm
 
     success_url = "/auth/login/"
     template_name = "registration/register.html"
 
-    def form_valid(self, form):
-        form.save()
+    def get(self, request):
+        form = RegisterForm()
+        return render(request, "registration/register.html", {'form': form})
 
-        return super(RegisterFormView, self).form_valid(form)
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        print(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+
+        return render(request, "registration/register.html", {'form': form})
 
 
-class LoginFormView(FormView):
-    form_class = AuthenticationForm
+class LoginFormView(View):
+    form_class = LoginForm
 
     template_name = "registration/login.html"
     success_url = "/"
 
-    def form_valid(self, form):
-        self.user = form.get_user()
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, "registration/login.html", {'form': form})
 
-        login(self.request, self.user())
-        return super(LoginFormView, self).form_valid(form)
+    def login(self, request):
+        form = LoginForm(request.POST)
+        print(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(login=cd['login'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled account')
+            else:
+                return HttpResponse('Invalid login')
+        else:
+            form = AuthenticationForm()
+        return render(request, "registration/login.html", {'form': form})
 
 
 class LogoutView(View):

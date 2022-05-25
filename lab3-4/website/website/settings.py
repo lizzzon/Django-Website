@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.authentication',
     'apps.home_page',
+    'apps.info_pages',
 ]
 
 MIDDLEWARE = [
@@ -95,3 +96,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 STATICFILES_DIRS = []
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'
+

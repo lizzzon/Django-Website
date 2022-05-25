@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 class RegisterForm(UserCreationForm):
     username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'from-input'}))
-    login = forms.CharField(label='Login', widget=forms.TextInput(attrs={'class': 'from-input'}))
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'from-input'}))
 
     class Temp:
