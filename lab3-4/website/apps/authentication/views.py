@@ -38,10 +38,8 @@ class RegisterFormView(View):
 
 
 class LoginFormView(View):
-    form_class = LoginForm
-
+    form_class = AuthenticationForm
     template_name = "registration/login.html"
-    success_url = "/"
 
     def get(self, request):
         form = AuthenticationForm()
@@ -53,7 +51,7 @@ class LoginFormView(View):
         print(form.is_valid())
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(login=cd['login'], password=cd['password'])
+            user = authenticate(username=cd['username'], password=cd['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
