@@ -1,0 +1,15 @@
+<h1>Planets</h1>
+
+<table>
+    <tr>
+        <th>Item</th>
+    </tr>
+    {% for task in object_list %}
+    <tr>
+        <td>{{Planet.title}}</td>
+        <td><a href="{ url 'planet' planet.id%}">View</a></td>
+    </tr>
+    {% empty %}
+        <h3>No items</h3>
+    {% endfor %}
+</table>

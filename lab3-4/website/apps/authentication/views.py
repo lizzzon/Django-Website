@@ -31,8 +31,10 @@ class RegisterFormView(View):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            password = form.cleaned_data.get('password2')
+            user = authenticate(username=username, email=email, password1=raw_password, password2=password)
 
         return render(request, "registration/register.html", {'form': form})
 
@@ -51,7 +53,7 @@ class LoginFormView(View):
         print(form.is_valid())
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
+            user = authenticate(email=cd['email'], password=cd['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)

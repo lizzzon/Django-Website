@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link type="text/css" href="{% static 'css/blog_style.css' %}" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Charis+SIL&family=Kaushan+Script&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>About us</title>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="header__logo">PlaTo</div>
+
+      <nav class="nav">
+        <a class="nav__link" href="{% url 'home' %}">Home</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="intro">
+  <div class="container">
+    <div class="intro__inner">
+      <p class="intro__title">About us</p>
+      <p class="intro__moon">If you are a fan of something super extreme and you are bored with all the entertainment on our planet, our company can help you!
+We invite you to plunge into the world of space, as well as supplement it yourself. If you wish, on this site you can both read information about the planets, and supplement it with your own and add new posts.
+In the near future, the site will be able to sign up for a flight to other planets.</p>
+    </div>
+
+
+  </div>
+</div>
+
+
+</body>
+</html>
