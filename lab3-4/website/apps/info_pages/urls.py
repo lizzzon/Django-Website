@@ -4,16 +4,9 @@ from apps.info_pages.views import *
 
 urlpatterns = [
     path('', InfoPage.as_view(), name='info'),
-    path("blog/", views.PostListView.as_view(), name="post_list"),
-    path("post/<int:pk>", views.PostDetailView.as_view(), name="post_detail"),
-    path("post/new", views.CreatePostView.as_view(), name="post_new"),
-    path("post/<int:pk>/edit", views.PostUpdateView.as_view(), name="post_edit"),
-    path("post/<int:pk>/remove", views.PostDeleteView.as_view(), name="post_remove"),
-    path("draft/", views.DraftListView.as_view(), name="post_draft_list"),
-    path(
-        "post/<int:pk>/commment", views.add_comment_to_post, name="add_comment_to_post"
-    ),
-    path("comment/<int:pk>/approve", views.comment_approve, name="comment_approve"),
-    path("comment/<int:pk>/remove", views.comment_remove, name="comment_remove"),
-    path("post/<int:pk>/publish", views.post_publish, name="post_publish"),
+    path('blog/', PlanetList.as_view(), name='blog'),
+    path('planet/<int:pk>', PlanetDetail.as_view(), name='planet'),
+    path('create-planet/', PlanetCreate.as_view(), name='create-planet'),
+    path('update-planet/', PlanetUpdate.as_view(), name='update-planet'),
+    path('delete-planet/', PlanetDelete.as_view(), name='delete-planet'),
 ]
