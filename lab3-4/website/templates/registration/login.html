@@ -9,10 +9,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;700&family=Roboto+Flex:opsz@8..144&display=swap" rel="stylesheet">
-  <title>Registration</title>
+  <title>Login</title>
 </head>
 
 <body>
+
+
+
   <header class="header">
   <div class="container">
     <div class="header__inner">
@@ -24,17 +27,17 @@
   </div>
   </header>
   <main>
+
     <div class="register-form-container">
       <h1 class="form-title">Login</h1>
       <div class="form-fields">
-        <div class="form-field">
-          <input type="text" placeholder="Email">
-        </div>
-        <div class="form-field">
-          <input type="text" placeholder="Password">
-        </div>
+        <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
       <div class="form-buttons">
-        <button class="btn">Login</button>
+        <button class="btn" type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'registration' %}">Register</a></p>
       </div>
       </div>
     </div>

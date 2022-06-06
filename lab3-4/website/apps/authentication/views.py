@@ -1,73 +1,36 @@
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import FormView
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
-from apps.authentication.forms import RegisterForm, LoginForm
-
-
-class MyView(LoginRequiredMixin, View):
-    login_url = '/auth/login'
-    redirect_field_name = 'redirect_to'
+from django.contrib.auth.views import LoginView
+from apps.authentication.forms import RegisterForm
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
 
 
-class RegisterFormView(View):
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+class RegisterPage(FormView):
+    template_name = 'registration/register.html'
     form_class = UserCreationForm
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('home')
 
-    success_url = "/auth/login/"
-    template_name = "registration/register.html"
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+        return super(RegisterPage, self).form_valid(form)
 
-    def get(self, request):
-        form = RegisterForm()
-        return render(request, "registration/register.html", {'form': form})
-
-    def post(self, request):
-        form = RegisterForm(request.POST)
-        print(request.POST)
-        print(form.is_valid())
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password1')
-            password = form.cleaned_data.get('password2')
-            user = authenticate(username=username, email=email, password1=raw_password, password2=password)
-
-        return render(request, "registration/register.html", {'form': form})
-
-
-class LoginFormView(View):
-    form_class = AuthenticationForm
-    template_name = "registration/login.html"
-
-    def get(self, request):
-        form = AuthenticationForm()
-        return render(request, "registration/login.html", {'form': form})
-
-    def login(self, request):
-        form = LoginForm(request.POST)
-        print(request.POST)
-        print(form.is_valid())
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(email=cd['email'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authenticated successfully')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-        else:
-            form = AuthenticationForm()
-        return render(request, "registration/login.html", {'form': form})
-
-
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return HttpResponseRedirect("/")
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('home')
+        return super(RegisterPage, self).get(*args, **kwargs)
