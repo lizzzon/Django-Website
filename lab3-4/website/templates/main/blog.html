@@ -1,0 +1,28 @@
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <link type="text/css" href="{% static 'css/base_style.css' %}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <title>Blog</title>
+</head>
+
+<h1>Create new Planet</h1>
+<a href="{% url 'create' %}">Add Planet</a>
+
+
+<table>
+    <tr>
+        <th>Item</th>
+    </tr>
+    {% for planet in planets %}
+    <tr>
+        <td>{{planet.title}}</td>
+        <td><a href="{% url 'planet' planet.id %}">View</a></td>
+        <td><a href="{% url 'update' planet.id %}">Update</a></td>
+        <td><a href="{% url 'delete' planet.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+        <h3>No items in list</h3>
+    {% endfor %}
+</table>

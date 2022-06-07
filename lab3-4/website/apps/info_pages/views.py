@@ -1,6 +1,5 @@
-from django.views.generic import ListView, CreateView, DetailView
-from django.urls import  reverse_lazy
-from django.views.generic.edit import ModelFormMixin, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from apps.home_page.models import Planet
 
 
@@ -13,6 +12,7 @@ class InfoPage(ListView):
 class PlanetList(ListView):
     model = Planet
     context_object_name = 'planets'
+    template_name = 'main/blog.html'
 
 
 class PlanetDetail(DetailView):
@@ -24,16 +24,21 @@ class PlanetDetail(DetailView):
 class PlanetCreate(CreateView):
     model = Planet
     fields = '__all__'
+    template_name = 'main/create.html'
     success_url = reverse_lazy('blog')
 
 
 class PlanetUpdate(UpdateView):
     model = Planet
     fields = '__all__'
+    template_name = 'main/create.html'
     success_url = reverse_lazy('blog')
 
 
-class PlanetDelete(DeleteView):
+class DeleteView(DeleteView):
     model = Planet
-    context_object_name = 'planets'
+    context_object_name = 'planet'
     success_url = reverse_lazy('blog')
+
+
+

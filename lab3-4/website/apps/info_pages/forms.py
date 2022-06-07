@@ -1,29 +1,11 @@
 from django import forms
 from django.shortcuts import render
 
-from .models import Comment, Post
+from django import forms
+from ..home_page.models import Planet
 
 
-# Create your views here.
-class PostForm(forms.ModelForm):
+class PlanetForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ("author", "title", "text")
-
-        widgets = {
-            "title": forms.TextInput(attrs={"class": "textinputclass"}),
-            "text": forms.Textarea(
-                attrs={"class": "editable medium-editor-textarea postclass"}
-            ),
-        }
-
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ("author", "text")
-
-        widgets = {
-            "author": forms.TextInput(attrs={"class": "textinputclass"}),
-            "text": forms.Textarea(attrs={"class": "editable medium-editor-textarea"}),
-        }
+        model = Planet
+        fields = "__all__"
