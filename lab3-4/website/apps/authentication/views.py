@@ -1,10 +1,7 @@
-from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views import View
 from django.contrib.auth.views import LoginView
-from apps.authentication.forms import RegisterForm
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 
